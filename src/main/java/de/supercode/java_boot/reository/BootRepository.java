@@ -1,6 +1,8 @@
 package de.supercode.java_boot.reository;
 
 import de.supercode.java_boot.Boot;
+
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Component;
@@ -10,11 +12,12 @@ import java.util.ArrayList;
 @Component
 public class BootRepository {
 public static long actualid = 0;
-ArrayList<Boot> boots = new ArrayList<>();
+public ArrayList<Boot> boots = new ArrayList<>();
 
 public BootRepository() {
-    boots = new ArrayList<>();
+    this.boots = new ArrayList<>();
 }
+
 
     public void addBoot(Boot boot){
         boot.setId(actualid++);
@@ -45,5 +48,13 @@ public BootRepository() {
     if(boot != null){
         boots.remove(boot);
     }
+    }
+
+    public int countBoots() {
+        return boots.size();
+    }
+
+    public Boot findbyBootName(String bootName){
+    return boots.stream().filter(boot->boot.getName().equals(bootName)).findFirst().orElse(null);
     }
 }

@@ -34,4 +34,12 @@ public class BootService {
     public void deleteBoot(long id) {
         bootRepository.deleteBook(id);
     }
+
+    public int countBoots() {
+     return bootRepository.countBoots();
+    }
+
+    public Boot findbyBootName(String bootName){
+        return bootRepository.findbyBootName(bootName);
+    }
 }

@@ -38,4 +38,13 @@ public class BootController {
         bootService.deleteBoot(id);
     }
 
+    @GetMapping("/count")
+    public long getCount() {
+        return  bootService.countBoots();
+    }
+
+    @GetMapping("/search")
+    public Boot findbyBootName(@RequestParam String name){
+        return bootService.findbyBootName(name);
+    }
 }
