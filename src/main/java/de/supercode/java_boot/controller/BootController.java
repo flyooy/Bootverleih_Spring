@@ -5,6 +5,7 @@ import de.supercode.java_boot.services.BootService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/boots")
@@ -15,12 +16,13 @@ public class BootController {
         this.bootService = bootService;
     }
 
+    @GetMapping("/{id}")
+    public Optional<Boot> getABoot(@PathVariable long id){
+        return bootService.getABoot(id);
+    }
     @GetMapping
-    public ArrayList<Boot> getAllBooks(@RequestParam(required = false) Long bootid){
-        if(bootid == null)
-            return bootService.getAllBoots();
-        else
-            return bootService.getABoot(bootid);
+    public ArrayList<Boot> getAllBoots(){
+        return bootService.getAllBoots();
     }
 
     @PostMapping
@@ -28,23 +30,14 @@ public class BootController {
         bootService.addBoot(boot);
     }
 
-    @PutMapping("/{id}")
-    public Boot updateBoot(@PathVariable long id, @RequestBody Boot boot) {
-        return  bootService.updateBoot(id, boot);
+    @PutMapping
+    public Boot updateBoot(@RequestBody Boot boot) {
+        return  bootService.updateBoot(boot);
     }
-
     @DeleteMapping("/{id}")
-    public void deleteBoot(@PathVariable long id) {
-        bootService.deleteBoot(id);
+    public void deleteBootbyId(@PathVariable long id) {
+        bootService.deleteBootbyId(id);
     }
 
-    @GetMapping("/count")
-    public long getCount() {
-        return  bootService.countBoots();
-    }
 
-    @GetMapping("/search")
-    public Boot findbyBootName(@RequestParam String name){
-        return bootService.findbyBootName(name);
-    }
 }

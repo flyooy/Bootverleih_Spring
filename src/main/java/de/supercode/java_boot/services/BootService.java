@@ -1,12 +1,13 @@
 package de.supercode.java_boot.services;
 import de.supercode.java_boot.Boot;
 import de.supercode.java_boot.reository.BootRepository;
-import org.springframework.stereotype.Component;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
-@Component
+@Service
 public class BootService {
 
     BootRepository bootRepository;
@@ -16,30 +17,28 @@ public class BootService {
     }
 
     public void addBoot(Boot boot) {
-        bootRepository.addBoot(boot);
+        bootRepository.save(boot);
     }
 
     public ArrayList<Boot> getAllBoots() {
-        return bootRepository.getAllBoots();
+        return (ArrayList<Boot>) bootRepository.findAll();
     }
 
-    public ArrayList<Boot> getABoot(long id){
-        return new ArrayList<Boot>(List.of(bootRepository.getBoot(id)));
+    public Optional<Boot> getABoot(long id) {
+        return bootRepository.findById(id);
     }
 
-    public Boot updateBoot(long id, Boot boot) {
-        return bootRepository.updateBook(id, boot);
+    public Boot updateBoot(Boot boot) {
+        Optional<Boot> existingBoot = bootRepository.findById(boot.getId());
+        if (existingBoot.isPresent()) {
+            return bootRepository.save(boot);
+        } else {
+            throw new EntityNotFoundException("Boot with ID " + boot.getId() + " not found.");
+        }
     }
 
-    public void deleteBoot(long id) {
-        bootRepository.deleteBook(id);
+    public void deleteBootbyId(long id) {
+        bootRepository.deleteById(id);
     }
 
-    public int countBoots() {
-     return bootRepository.countBoots();
-    }
-
-    public Boot findbyBootName(String bootName){
-        return bootRepository.findbyBootName(bootName);
-    }
 }
